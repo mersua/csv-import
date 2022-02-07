@@ -17,6 +17,8 @@ class ImportCsvCommand extends Command
     protected static $defaultName = 'app:import-csv';
 
     public function __construct(CSVImporter $csvImporter) {
+        parent::__construct();
+
         $this->csvImporter = $csvImporter;
     }
 
