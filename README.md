@@ -5,6 +5,8 @@ cp .env.test .env
 docker-compose up --build -d
 cd app
 cp .env.test .env
+docker exec -it <php-cli-container_name> bash
+composer install
 ```
 
 ### Run any docker container:
@@ -24,9 +26,9 @@ docker ps
 ```php
 docker logs <container_name>
 ```
-
-### Run phpunit tests:
+### Run csv import inside php-cli docker container (create folder var/data and move importing csv file into that folder):
 
 ```php
-
+mkdir var/data
+bin/console app:import-csv <csv_file_name> [--test]
 ```
