@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Service\CSVImporter;
@@ -43,8 +45,12 @@ class ImportCsvCommand extends Command
             $io->note(sprintf('Count of product items that was processed: %s', $result->getProcessed()));
             $io->success(sprintf('Count of product items that was successfully imported: %s', $result->getSuccessful()));
             $io->note(sprintf('Count of product items that was skipped: %s', $result->getSkipped()));
+            if (count($result->getFailedProducts())) {
+                $io->caution('List of failed products:');
+                $io->block($result->getFailedProducts());
+            }
         } catch (\Exception $exception) {
-            $io->error(sprintf('During import exception appear: %s', $exception->getMessage()));
+            $io->error($exception->getMessage());
 
             return $exception->getCode();
         }

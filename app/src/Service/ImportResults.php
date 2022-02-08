@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
+
+use App\Entity\Product;
 
 class ImportResults {
     private int $processed = 0;
     private int $successful = 0;
     private int $skipped = 0;
+    private array $failedProducts = [];
 
     public function getProcessed(): int
     {
@@ -15,6 +20,13 @@ class ImportResults {
     public function setProcessed(int $processed): self
     {
         $this->processed = $processed;
+
+        return $this;
+    }
+
+    public function addProcessed(): self
+    {
+        $this->processed++;
 
         return $this;
     }
@@ -31,6 +43,13 @@ class ImportResults {
         return $this;
     }
 
+    public function addSuccessful(): self
+    {
+        $this->successful++;
+
+        return $this;
+    }
+
     public function getSkipped(): int
     {
         return $this->skipped;
@@ -39,6 +58,25 @@ class ImportResults {
     public function setSkipped(int $skipped): self
     {
         $this->skipped = $skipped;
+
+        return $this;
+    }
+
+    public function addSkipped(): self
+    {
+        $this->skipped++;
+
+        return $this;
+    }
+
+    public function getFailedProducts(): array
+    {
+        return $this->failedProducts;
+    }
+
+    public function addFailedProduct(Product $failedProduct): self
+    {
+        $this->failedProducts[] = json_encode($failedProduct);
 
         return $this;
     }

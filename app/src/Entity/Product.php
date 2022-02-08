@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -62,7 +64,7 @@ class Product
 
     /**
      * @ORM\Column(name="decPrice", type="decimal", precision=10, scale=2, nullable=false)
-     * @Assert\NotBlank
+     * @Assert\NotNull
      * @Assert\Type(type="Numeric")
      */
     private float $price;
@@ -190,5 +192,10 @@ class Product
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function isValid(): bool
+    {
+        return !($this->price > 1000 || ($this->price < 5 && $this->stock < 10));
     }
 }
